@@ -12,7 +12,53 @@ import Foundation
 import NetworkExtension
 import os
 
-open class WireGuardTunnelProvider: NEPacketTunnelProvider {
+class NetworkBackend: WireGuardBackend {
+    func setLogger(context: UnsafeMutableRawPointer?, logger_fn: WireGuardLoggerCallback?) {
+        // 实现日志设置
+    }
+    
+    func turnOn(settings: String, tun_fd: Int32) -> Int32 {
+        // 实现开启功能
+        return 0
+    }
+    
+    func turnOff(_ handle: Int32) {
+        // 实现关闭功能
+    }
+    
+    func setConfig(_ handle: Int32, settings: String) -> Int64 {
+        // 实现配置设置
+        return 0
+    }
+    
+    func getConfig(_ handle: Int32) -> String? {
+        // 实现获取配置
+        return nil
+    }
+    
+    func bumpSockets(_ handle: Int32) {
+        // 实现socket刷新
+    }
+    
+    func disableSomeRoamingForBrokenMobileSemantics(_ handle: Int32) {
+        // 实现移动语义处理
+    }
+    
+    func version() -> String? {
+        // 实现版本获取
+        return "1.0.0"
+    }
+}
+
+open class WireGuardTunnelProvider: NEPacketTunnelProvider, WireGuardAdapterDelegate {
+    public func adapterShouldReassert(_ adapter: WireGuardKit.WireGuardAdapter, reasserting: Bool) {
+    
+    }
+    
+    public func adapterShouldSetNetworkSettings(_ adapter: WireGuardKit.WireGuardAdapter, settings: NEPacketTunnelNetworkSettings, completionHandler: (((any Error)?) -> Void)?) {
+    
+    }
+    
     private var cfg: WireGuard.ProviderConfiguration!
 
     /// The number of milliseconds between data count updates. Set to 0 to disable updates (default).
@@ -24,7 +70,7 @@ open class WireGuardTunnelProvider: NEPacketTunnelProvider {
     private let tunnelQueue = DispatchQueue(label: WireGuardTunnelProvider.description(), qos: .utility)
 
     private lazy var adapter: WireGuardAdapter = {
-        return WireGuardAdapter(with: self) { logLevel, message in
+        return WireGuardAdapter(with: self, backend: NetworkBackend()) { logLevel, message in
             wg_log(logLevel.osLogLevel, message: message)
         }
     }()
