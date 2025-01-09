@@ -42,10 +42,6 @@ public protocol WireGuardConfigurationProviding {
 
     var dnsSearchDomains: [String] { get }
 
-    var dnsHTTPSURL: URL? { get }
-
-    var dnsTLSServerName: String? { get }
-
     var mtu: UInt16? { get }
 
     var peersCount: Int { get }
@@ -132,10 +128,6 @@ extension WireGuard {
                 interface.dnsSearch = newValue
             }
         }
-
-        public var dnsHTTPSURL: URL?
-
-        public var dnsTLSServerName: String?
 
         public var mtu: UInt16? {
             get {
@@ -264,10 +256,6 @@ extension WireGuard {
             interface.dnsSearch
         }
 
-        public var dnsHTTPSURL: URL?
-
-        public var dnsTLSServerName: String?
-        
         public var mtu: UInt16? {
             interface.mtu
         }
