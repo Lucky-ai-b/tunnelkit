@@ -41,7 +41,7 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
         .package(url: "https://github.com/SwiftyBeaver/SwiftyBeaver", from: "1.9.0"),
-        .package(url: "https://github.com/passepartoutvpn/openssl-apple", from: "3.2.105"),
+        .package(url: "https://github.com/krzyzanowskim/OpenSSL", from: "3.3.2000"),
 //        .package(url: "https://git.zx2c4.com/wireguard-apple", .exact: Version("1.0.15-26")),
 //        .package(url: "https://github.com/passepartoutvpn/wireguard-apple", exact: Version("1.0.17")),
         .package(url: "https://github.com/passepartoutvpn/wireguard-apple", revision: "d8bcdf22f1e75d80caac874f302dee86194bb71d")
@@ -157,7 +157,7 @@ let package = Package(
             dependencies: [
                 "CTunnelKitCore",
                 "CTunnelKitOpenVPNCore",
-                "openssl-apple"
+                "OpenSSL"
             ]),
         .target(
             name: "__TunnelKitUtils",

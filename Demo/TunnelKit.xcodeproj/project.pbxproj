@@ -387,6 +387,9 @@
 				Base,
 			);
 			mainGroup = 0E17D7EF1F730D9F009EE129;
+			packageReferences = (
+				F3D82FAB2D3901720065DBF5 /* XCRemoteSwiftPackageReference "OpenSSL" */,
+			);
 			productRefGroup = 0E17D7FA1F730D9F009EE129 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -871,6 +874,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F3D82FAB2D3901720065DBF5 /* XCRemoteSwiftPackageReference "OpenSSL" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/krzyzanowskim/OpenSSL";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.3.2000;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		0E80FA5027396F5F000F5A45 /* TunnelKitOpenVPNAppExtension */ = {
