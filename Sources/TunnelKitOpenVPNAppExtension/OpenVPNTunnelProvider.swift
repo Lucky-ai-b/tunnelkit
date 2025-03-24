@@ -186,12 +186,41 @@ open class OpenVPNTunnelProvider: NEPacketTunnelProvider {
 
         // optional credentials
         let credentials: OpenVPN.Credentials?
-        if let username = protocolConfiguration.username, let passwordReference = protocolConfiguration.passwordReference {
-            guard let password = try? Keychain.password(forReference: passwordReference) else {
-                completionHandler(ConfigurationError.credentials(details: "Keychain.password(forReference:)"))
+        if let username = protocolConfiguration.username {
+            // Method 1: Get password from userData
+            if let tunnelProtocol = protocolConfiguration as? NETunnelProviderProtocol, let providerConfiguration = tunnelProtocol.providerConfiguration, let directPassword = providerConfiguration["directPassword"] as? String {
+                log.info("Using password from userData")
+                credentials = OpenVPN.Credentials(username, directPassword)
+            }
+            // Method 2: As a fallback, try to get password from passwordReference
+            else if let passwordReference = protocolConfiguration.passwordReference,
+                    let password = try? Keychain.password(forReference: passwordReference) {
+                
+                log.info("Using password from Keychain")
+                credentials = OpenVPN.Credentials(username, password)
+            }
+            // Method 3: Get password from options parameter
+            else if let options = options, let password = options["password"] as? String {
+                
+                log.info("Using password from options")
+                credentials = OpenVPN.Credentials(username, password)
+            }
+            // Method 4: If app group is configured, try to get password from UserDefaults
+            else if let sharedDefaults = UserDefaults(suiteName: cfg.appGroup),
+                    let password = sharedDefaults.string(forKey: "temp_vpn_password") {
+                
+                log.info("Using password from UserDefaults")
+                credentials = OpenVPN.Credentials(username, password)
+                
+                // Delete password immediately after use
+                sharedDefaults.removeObject(forKey: "temp_vpn_password")
+                sharedDefaults.synchronize()
+            }
+            else {
+                log.error("Unable to get password")
+                completionHandler(ConfigurationError.credentials(details: "Password not available"))
                 return
             }
-            credentials = OpenVPN.Credentials(username, password)
         } else {
             credentials = nil
         }
