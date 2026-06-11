@@ -25,7 +25,7 @@ open class WireGuardTunnelProvider: NEPacketTunnelProvider {
     private let tunnelQueue = DispatchQueue(label: WireGuardTunnelProvider.description(), qos: .utility)
 
     private lazy var adapter: WireGuardAdapter = {
-        return WireGuardAdapter(with: self, backend: WireGuardBackendGo()) { logLevel, message in
+        return WireGuardAdapter(with: self) { logLevel, message in
             wg_log(logLevel.osLogLevel, message: message)
         }
     }()
@@ -184,16 +184,6 @@ open class WireGuardTunnelProvider: NEPacketTunnelProvider {
                 wg_log(.error, message: "Failed to refresh data count \(error.localizedDescription)")
             }
         }
-    }
-}
-
-extension WireGuardTunnelProvider: WireGuardAdapterDelegate {
-    public func adapterShouldReassert(_ adapter: WireGuardAdapter, reasserting: Bool) {
-        self.reasserting = reasserting
-    }
-
-    public func adapterShouldSetNetworkSettings(_ adapter: WireGuardAdapter, settings: NEPacketTunnelNetworkSettings, completionHandler: (((any Error)?) -> Void)?) {
-        setTunnelNetworkSettings(settings, completionHandler: completionHandler)
     }
 }
 

@@ -38,11 +38,10 @@ let package = Package(
         )
     ],
     dependencies: [
-        // Dependencies declare other packages that this package depends on.
-        // .package(url: /* package url */, from: "1.0.0"),
-        .package(url: "https://github.com/SwiftyBeaver/SwiftyBeaver", from: "1.9.0"),
-        .package(url: "https://github.com/passepartoutvpn/openssl-apple", from: "3.4.200"),
-        .package(url: "https://github.com/passepartoutvpn/wireguard-apple", revision: "d8bcdf22f1e75d80caac874f302dee86194bb71d")
+        // Forks pinned to a commit: these forks have no release tags, only `master`.
+        .package(url: "https://github.com/Lucky-ai-b/SwiftyBeaver", revision: "0b2a00871a15a80407273412fd39967713ead7d3"),
+        .package(url: "https://github.com/Lucky-ai-b/openssl-apple", revision: "685680e3adbfccdeef84d37fc5732b0031f188c7"),
+        .package(url: "https://github.com/Lucky-ai-b/wg-go-apple", revision: "dfd5cc1f8840686297a4c3ec3e88b6a1adf87331")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -117,7 +116,7 @@ let package = Package(
             dependencies: [
                 "__TunnelKitUtils",
                 "TunnelKitCore",
-                .product(name: "WireGuardKit", package: "wireguard-apple"),
+                "WireGuardKit",
                 "SwiftyBeaver"
             ]),
         .target(
@@ -158,6 +157,34 @@ let package = Package(
         .target(
             name: "__TunnelKitUtils",
             dependencies: []),
+        //
+        // Vendored WireGuardKit (Swift wrapper) backed by the prebuilt
+        // wg-go-apple binary instead of building wireguard-go from source.
+        .target(
+            name: "WireGuardKit",
+            dependencies: [
+                "WireGuardKitC",
+                "WireGuardKitGo"
+            ],
+            path: "Sources/Sources/WireGuardKit"),
+        .target(
+            name: "WireGuardKitC",
+            dependencies: [],
+            path: "Sources/Sources/WireGuardKitC",
+            publicHeadersPath: "."),
+        .target(
+            name: "WireGuardKitGo",
+            dependencies: [
+                .product(name: "wg-go-apple", package: "wg-go-apple")
+            ],
+            path: "Sources/Sources/WireGuardKitGo",
+            exclude: [
+                "go.mod",
+                "go.sum",
+                "api-apple.go",
+                "Makefile"
+            ],
+            publicHeadersPath: "."),
         //
         .testTarget(
             name: "TunnelKitCoreTests",

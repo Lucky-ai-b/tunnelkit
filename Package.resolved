@@ -3,36 +3,25 @@
     {
       "identity" : "openssl-apple",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/passepartoutvpn/openssl-apple",
+      "location" : "https://github.com/Lucky-ai-b/openssl-apple",
       "state" : {
-        "revision" : "38aa6fa15ebddc7b1ec248551325e1121580c9da",
-        "version" : "3.4.200"
+        "revision" : "685680e3adbfccdeef84d37fc5732b0031f188c7"
       }
     },
     {
       "identity" : "swiftybeaver",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SwiftyBeaver/SwiftyBeaver",
+      "location" : "https://github.com/Lucky-ai-b/SwiftyBeaver",
       "state" : {
-        "revision" : "12b5acf96d98f91d50de447369bd18df74600f1a",
-        "version" : "1.9.6"
+        "revision" : "0b2a00871a15a80407273412fd39967713ead7d3"
       }
     },
     {
       "identity" : "wg-go-apple",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/passepartoutvpn/wg-go-apple",
+      "location" : "https://github.com/Lucky-ai-b/wg-go-apple",
       "state" : {
-        "revision" : "691a702cd4a1d2b5acd409040741ec123c87cf2c",
-        "version" : "0.0.20250216"
-      }
-    },
-    {
-      "identity" : "wireguard-apple",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/passepartoutvpn/wireguard-apple",
-      "state" : {
-        "revision" : "d8bcdf22f1e75d80caac874f302dee86194bb71d"
+        "revision" : "dfd5cc1f8840686297a4c3ec3e88b6a1adf87331"
       }
     }
   ],
