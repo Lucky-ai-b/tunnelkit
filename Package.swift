@@ -35,6 +35,12 @@ let package = Package(
         .library(
             name: "TunnelKitLZO",
             targets: ["TunnelKitLZO"]
+        ),
+        // Re-exposed so consumers that linked the external wireguard-apple's
+        // `WireGuardKit` product keep resolving after it was vendored locally.
+        .library(
+            name: "WireGuardKit",
+            targets: ["WireGuardKit"]
         )
     ],
     dependencies: [
